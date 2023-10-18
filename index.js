@@ -40,7 +40,7 @@ run().catch(console.dir);
 
 
 app.get("/", (req, res) => {
-  res.send("Gadget Vista Server is running...");
+  res.send("Gadget Vista Server is running.Is it sure?..");
 });
 
 app.listen(port, () => {
