@@ -74,33 +74,17 @@ async function run() {
       const cursor = cartCollection.find();
       const result = await cursor.toArray();
       res.send(result);
-    });
-    app.get("/cart/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await cartCollection.findOne(query);
-      res.send(result);
-    });
+    }); 
     app.post("/cart", async (req, res) => {
       const addedItem = req.body;
       const result = await cartCollection.insertOne(addedItem);
       res.send(result);
     });
     app.delete("/cart/:id", async (req, res) => {
-      try {
-        const id = req.params.id;
-        const query = { _id: new ObjectId(id) };
-        const result = await cartCollection.deleteOne(query);
-        
-        if (result.deletedCount === 1) {
-          res.status(200).send("Document deleted successfully.");
-        } else {
-          res.status(404).send("Document not found.");
-        }
-      } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
-      }
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await cartCollection.deleteOne(query);
+      res.send(result);
     });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
