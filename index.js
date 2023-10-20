@@ -32,33 +32,33 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-    app.get("/cart",async(req,res)=>{
+    app.get("/cart", async (req, res) => {
       const cursor = cartCollection.find();
       const result = await cursor.toArray();
       res.send(result);
-    })
+    });
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await productCollection.findOne(query);
       res.send(result);
     });
-    app.get("/cart/:id",async(req,res)=>{
-      const id = req.params.id;
-      const query = {_id:new ObjectId(id)};
-      const result = await cartCollection.findOne(query);
-      res.send(result);
-    })
+    // app.get("/cart/:id",async(req,res)=>{
+    //   const id = req.params.id;
+    //   const query = {_id: new ObjectId(id)};
+    //   const result = await cartCollection.findOne(query);
+    //   res.send(result);
+    // })
     app.post("/products", async (req, res) => {
       const newProduct = req.body;
       const result = await productCollection.insertOne(newProduct);
       res.send(result);
     });
-    app.post("/cart",async(req,res)=>{
+    app.post("/cart", async (req, res) => {
       const addedItem = req.body;
       const result = await cartCollection.insertOne(addedItem);
       res.send(result);
-    })
+    });
     app.put("/products/:id", async (req, res) => {
       const id = req.params.id;
       const updatedProduct = req.body;
@@ -75,22 +75,25 @@ async function run() {
           details: updatedProduct.details,
         },
       };
-      const result = await productCollection.updateOne(filter, product,options
+      const result = await productCollection.updateOne(
+        filter,
+        product,
+        options
       );
       res.send(result);
     });
-    app.delete("/products/:id",async(req,res)=>{
+    // app.delete("/products/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await productCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+    app.delete("/cart/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id:new ObjectId(id)};
-      const result = await productCollection.deleteOne(query);
-      res.send(result);
-    })
-    app.delete("/cart/:id",async(req,res)=>{
-      const id = req.params.id;
-      const query = {_id:new ObjectId(id)};
+      const query = { _id: new ObjectId(id) };
       const result = await cartCollection.deleteOne(query);
       res.send(result);
-    })
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -104,9 +107,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Gadget Vista Server is running.Is it sure?..");
+  res.send("Gadget Vista Server is running.");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running from port : ${port}`);
-});
+app.listen(port);
